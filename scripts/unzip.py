@@ -31,6 +31,8 @@ for dir in scanDirs:
         ext = os.path.splitext(fullFileName)[1]
         dir = os.path.dirname(file)
         os.chdir(dir)
+        
+        print("Done: " + fileName)
 
         if ext == ".7z":
           command = ""
