@@ -8,6 +8,17 @@ import subprocess
 scanDirs = ["/home/pi/RetroPie/roms/psx","/home/pi/RetroPie/roms/n64","/home/pi/RetroPie/roms/dreamcast","/home/pi/RetroPie/roms/snes"]
 types = ('*.zip', '*.7z') # the tuple of file types
 
+subdir = True
+trues = ("Y", "Yes", "True", "T", True)
+if (sys.version_info > (3, 0)):
+    #py3 code
+    tsubdir = input("Place in sub directory? ["+str(subdir)+"]:").strip().title() or subdir
+    subdir = tsubdir in trues 
+else:
+    #py2 code
+    tsubdir = raw_input("Place in sub directory? ["+str(subdir)+"]:").strip().title() or subdir
+    subdir = tsubdir in trues 
+
 for dir in scanDirs:
     print("Scanning:" + dir)
     for type in types:
@@ -21,13 +32,20 @@ for dir in scanDirs:
         os.chdir(dir)
 
         if ext == ".7z":
-          command = r'7za x '+file+' -o'+dir+"/"+fileName
-          #command = r'7za x '+file+' -o*'
+          command = ""
+          if subdir:
+            command = r'7za x '+file+' -o'+dir+"/"+fileName
+          else:
+            command = r'7za x '+file+' -o*'
+          
           print(command)
           subprocess.call(command, shell=True)
         elif ext == ".zip":
           zip_ref = zipfile.ZipFile(file, 'r')
-          zip_ref.extractall(dir + "/" + fileName)
+          if subdir:
+            zip_ref.extractall(dir + "/" + fileName)
+          else:
+            zip_ref.extractall()
           zip_ref.close()
 
         os.remove(file)
