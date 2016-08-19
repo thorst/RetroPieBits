@@ -4,6 +4,7 @@ import glob
 import os.path
 import zipfile
 import subprocess
+import sys
 
 scanDirs = ["/home/pi/RetroPie/roms/psx","/home/pi/RetroPie/roms/n64","/home/pi/RetroPie/roms/dreamcast","/home/pi/RetroPie/roms/snes"]
 types = ('*.zip', '*.7z') # the tuple of file types
